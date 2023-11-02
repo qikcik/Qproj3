@@ -9,3 +9,6 @@ set(CMAKE_CXX_FLAGS "-fno-strict-aliasing")
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/module.cmake")
 
 add_subdirectory("module/common/log")
+add_subdirectory("module/common/template")
+add_subdirectory("module/util/json")
+add_subdirectory("module/reflection/qstruct")

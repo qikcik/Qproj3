@@ -1,1 +1,1 @@
-defineModule("log")
+defineModule("common_log")

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "log.hpp"
+#include "log/log.hpp"
 
 bool func() {
     ENSURE_OR_RETURN(true == false,false);
