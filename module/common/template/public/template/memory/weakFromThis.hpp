@@ -3,6 +3,6 @@
 
 class WeakFromThis
 {
-public:
-    virtual void inject_selfWeak(WeakPtr<void> in_selfPtr) = 0;
+    // required to have first argument in constructor as WeakPtr<void>
+    //WeakFromThis(WeakPtr<void> in_self);
 };

@@ -10,6 +10,7 @@ public:
     inline static PtrBlock* create_block() {
         auto block = new PtrBlock();
         block->refCount = 1;
+        LOG_DBG("allocated block on addr:({})", PTR_TO_STR(block));
 
         return block;
     }
@@ -19,7 +20,10 @@ public:
 
         in_block->refCount--;
         if(in_block->refCount <= 0)
+        {
+            LOG_DBG("deallocating block on addr:({})", PTR_TO_STR(in_block));
             delete in_block;
+        }
     }
 
     inline static PtrBlock* add_ref(PtrBlock* in_block) {
@@ -31,10 +35,14 @@ public:
     inline void allocate_memory(size_t in_memorySize) {
         if(ptr) deallocate_memory();
         ptr = new uint8_t[in_memorySize];
+
+        LOG_DBG("allocated on addr:({})", PTR_TO_STR(ptr));
     }
 
     inline void deallocate_memory() {
         ENSURE_OR_RETURN(ptr,);
+        LOG_DBG("deallocating on addr:({})", PTR_TO_STR(ptr));
+
         delete[] (uint8_t*)ptr;
         ptr = nullptr;
     }

@@ -49,6 +49,11 @@ public:
         return reinterpret_cast<TType*>(block->getPtr());
     };
 
+    TType* getPtr() {
+        if(!block) return nullptr;
+        return reinterpret_cast<TType*>(block->getPtr());
+    };
+
     const TType* operator->() const {
         if(!block) return nullptr;
         return reinterpret_cast<TType*>(block->getPtr());
@@ -64,6 +69,8 @@ public:
     WeakPtr<TOther> unsafe_cast() {
         return  WeakPtr<TOther>(block);
     };
+
+
 
 
 protected:
