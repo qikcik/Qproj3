@@ -16,5 +16,5 @@
 //TODO: macros with DBG_ prefix, should be removed in release build
 #define ENSURE(in_condition) if(!(in_condition)) { LOG("ENSURE","condition:({}) not satisfied",#in_condition); }
 #define DBG_ENSURE(in_condition) if(!(in_condition)) { LOG("ENSURE","condition:({}) not satisfied",#in_condition); }
-#define ENSURE_OR_RETURN(in_condition,in_ret) if(!(in_condition)) { LOG("ENSURE","condition:({}) not satisfied, return:({})",#in_condition,#in_ret); throw std::runtime_error{""}; return in_ret; }
+#define ENSURE_OR_RETURN(in_condition,in_ret) if(!(in_condition)) { LOG("ENSURE","condition:({}) not satisfied, return:({})",#in_condition,#in_ret); return in_ret; }
 #define DBG_ENSURE_OR_RETURN(in_condition,in_ret) if(!(in_condition)) { LOG("ENSURE","condition:({}) not satisfied, return:({})",#in_condition,#in_ret) ; return in_ret; }

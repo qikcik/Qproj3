@@ -11,21 +11,18 @@ class QObjDef
 {
 public:
     QObjDef(
-            WeakPtr<QObjDef> in_baseObjDef,
             std::string in_name,
             size_t in_size,
             const std::function<void(WeakPtr<QObj> in_addr)>& in_constructInstance,
             const std::function<void(WeakPtr<QObj> in_addr)>& in_destructInstance,
-            DynamicArray<OwnerPtr<Field>>&& in_fields,
-            DynamicArray<OwnerPtr<Method>>&& in_methods
-    ):
-        baseObjDef(std::move(in_baseObjDef)),
+            const std::function<void()>& in_initializeQObjDef
+    )
+    :
         name(std::move(in_name)),
         memorySize(in_size),
+        initializeQObjDef(in_initializeQObjDef),
         constructInstance(in_constructInstance),
-        destructInstance(in_destructInstance),
-        fields(std::move(in_fields)),
-        methods(std::move(in_methods))
+        destructInstance(in_destructInstance)
     {}
 
     ~QObjDef() = default;
@@ -34,14 +31,14 @@ public:
     WeakPtr<Field> getField(const std::string& in_name) const;
     bool isBaseOrSame(WeakPtr<QObjDef> in_other) const;
 
-    const WeakPtr<QObjDef> baseObjDef {};
+    WeakPtr<QObjDef> baseObjDef {};
     const std::string name;
     const size_t memorySize;
 
+    const std::function<void()> initializeQObjDef;
     const std::function<void(WeakPtr<QObj> in_addr)> constructInstance;
     const std::function<void(WeakPtr<QObj> in_addr)> destructInstance;
 
-protected:
     DynamicArray<OwnerPtr<Field>> fields;
     DynamicArray<OwnerPtr<Method>> methods;
 };

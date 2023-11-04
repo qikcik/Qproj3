@@ -89,6 +89,11 @@ public:
         return reinterpret_cast<TType*>(block->getPtr());
     };
 
+    TType* unsafe_getPtr() const {
+        if(!block) return nullptr;
+        return reinterpret_cast<TType*>(block->getPtr());
+    };
+
     TType* operator->() {
         if(!block) return nullptr;
         return reinterpret_cast<TType*>(block->getPtr());

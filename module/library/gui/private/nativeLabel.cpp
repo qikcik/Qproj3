@@ -2,14 +2,10 @@
 #include "gui/nativeWindow.hpp"
 
 BEGIN_GEN_QOBJ_STATIC_DEF(NativeLabel,NativeWidget)
-DynamicArray<OwnerPtr<Field>>
+selfPtr->fields = std::move(DynamicArray<OwnerPtr<Field>>
 {
 GEN_QOBJ_DEF_FIELD_ENTRY(NativeLabel,text),
-},
-DynamicArray<OwnerPtr<Method>>
-{
-
-}
+});
 END_GEN_QOBJ_STATIC_DEF()
 
 NativeLabel::~NativeLabel()

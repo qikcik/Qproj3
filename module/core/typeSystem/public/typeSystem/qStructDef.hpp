@@ -7,7 +7,7 @@
 
 struct QStruct {};
 
-class QStructDef
+class QStructDef //TODO: refactor to use function initialer
 {
 public:
     QStructDef(

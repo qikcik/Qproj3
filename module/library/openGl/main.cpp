@@ -12,7 +12,6 @@ HINSTANCE hInstance; // Holds The Instance Of The Application
 
 bool keys[256]; // Array Used For The Keyboard Routine
 bool active=TRUE; // Window Active Flag Set To TRUE By Default
-bool fullscreen=TRUE; // Fullscreen Flag Set To Fullscreen Mode By Default
 
 GLuint texture[1];
 
@@ -62,10 +61,10 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height) // Resize And Initialize The
 
 int InitGL(GLvoid) // All Setup For OpenGL Goes Here
 {
-    if (!LoadGLTextures())                          // Jump To Texture Loading Routine ( NEW )
-    {
-        return FALSE;                           // If Texture Didn't Load Return FALSE ( NEW )
-    }
+//    if (!LoadGLTextures())                          // Jump To Texture Loading Routine ( NEW )
+//    {
+//        return FALSE;                           // If Texture Didn't Load Return FALSE ( NEW )
+//    }
     glEnable(GL_TEXTURE_2D);                        // Enable Texture Mapping ( NEW )
     glShadeModel(GL_SMOOTH); // Enables Smooth Shading
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Black Background
@@ -122,43 +121,43 @@ int DrawGLScene(GLvoid) // Here's Where We Do All The Drawing
         glVertex3f(-1.0f,-1.0f, 1.0f);          // Right Of Triangle (Left)
     glEnd();                        // Done Drawing The Pyramid
 
-    glLoadIdentity();
-    glTranslatef(1.5f,0.0f,-7.0f);              // Move Right And Into The Screen
-    glRotatef(rquad,1.0f,1.0f,1.0f);            // Rotate The Cube On X, Y & Z
-    glColor3f(1.0f,1.0f,1.0f);          // allColor
-    glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
-    glBegin(GL_QUADS);
-        // Front Face
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
-        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
-        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  // Top Right Of The Texture and Quad
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);  // Top Left Of The Texture and Quad
-        // Back Face
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);  // Bottom Right Of The Texture and Quad
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);  // Top Right Of The Texture and Quad
-        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);  // Top Left Of The Texture and Quad
-        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);  // Bottom Left Of The Texture and Quad
-        // Top Face
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);  // Top Left Of The Texture and Quad
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,  1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
-        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
-        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);  // Top Right Of The Texture and Quad
-        // Bottom Face
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);  // Top Right Of The Texture and Quad
-        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -1.0f, -1.0f);  // Top Left Of The Texture and Quad
-        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
-        // Right face
-        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);  // Bottom Right Of The Texture and Quad
-        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);  // Top Right Of The Texture and Quad
-        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  // Top Left Of The Texture and Quad
-        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
-        // Left Face
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);  // Bottom Left Of The Texture and Quad
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);  // Top Right Of The Texture and Quad
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);  // Top Left Of The Texture and Quad
-    glEnd();
+//    glLoadIdentity();
+//    glTranslatef(1.5f,0.0f,-7.0f);              // Move Right And Into The Screen
+//    glRotatef(rquad,1.0f,1.0f,1.0f);            // Rotate The Cube On X, Y & Z
+//    glColor3f(1.0f,1.0f,1.0f);          // allColor
+//    glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+//    glBegin(GL_QUADS);
+//        // Front Face
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  // Top Right Of The Texture and Quad
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);  // Top Left Of The Texture and Quad
+//        // Back Face
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);  // Bottom Right Of The Texture and Quad
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);  // Top Right Of The Texture and Quad
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);  // Top Left Of The Texture and Quad
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);  // Bottom Left Of The Texture and Quad
+//        // Top Face
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);  // Top Left Of The Texture and Quad
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f,  1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);  // Top Right Of The Texture and Quad
+//        // Bottom Face
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);  // Top Right Of The Texture and Quad
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f, -1.0f, -1.0f);  // Top Left Of The Texture and Quad
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
+//        // Right face
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f( 1.0f, -1.0f, -1.0f);  // Bottom Right Of The Texture and Quad
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f( 1.0f,  1.0f, -1.0f);  // Top Right Of The Texture and Quad
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f( 1.0f,  1.0f,  1.0f);  // Top Left Of The Texture and Quad
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f( 1.0f, -1.0f,  1.0f);  // Bottom Left Of The Texture and Quad
+//        // Left Face
+//        glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);  // Bottom Left Of The Texture and Quad
+//        glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f,  1.0f);  // Bottom Right Of The Texture and Quad
+//        glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f,  1.0f,  1.0f);  // Top Right Of The Texture and Quad
+//        glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f,  1.0f, -1.0f);  // Top Left Of The Texture and Quad
+//    glEnd();
 
     rtri+=0.2f;                     // Increase The Rotation Variable For The Triangle ( NEW )
     rquad-=0.15f;                       // Decrease The Rotation Variable For The Quad     ( NEW )
@@ -167,12 +166,6 @@ int DrawGLScene(GLvoid) // Here's Where We Do All The Drawing
 
 GLvoid KillGLWindow(GLvoid) // Properly Kill The Window
 {
-    if (fullscreen) // Are We In Fullscreen Mode?
-    {
-        ChangeDisplaySettings(NULL,0); // If So Switch Back To The Desktop
-        ShowCursor(TRUE);
-    }
-
     if (hRC) // Do We Have A Rendering Context?
     {
         if (!wglMakeCurrent(NULL,NULL)) // Are We Able To Release The DC And RC Contexts?
@@ -212,7 +205,6 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
     WindowRect.top=(long)0; // Set Top Value To 0
     WindowRect.bottom=(long)height; // Set Bottom Value To Requested Height
 
-    fullscreen=fullscreenflag; // Set The Global Fullscreen Flag
     hInstance = GetModuleHandle(NULL); // Grab An Instance For Our Window
     wc.style  = CS_HREDRAW | CS_VREDRAW | CS_OWNDC; // Redraw On Move, And Own DC For Window
     wc.lpfnWndProc = (WNDPROC) WndProc; // WndProc Handles Messages
@@ -230,42 +222,12 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool fullscree
         MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
         return FALSE;
     }
-    if (fullscreen) // Attempt Fullscreen Mode?
-    {
-        DEVMODE dmScreenSettings; // Device Mode
-        memset(&dmScreenSettings, 0, sizeof(dmScreenSettings)); // Makes Sure Memory's Cleared
-        dmScreenSettings.dmSize = sizeof(dmScreenSettings); // Size Of The Devmode Structure
-        dmScreenSettings.dmPelsWidth = width; // Selected Screen Width
-        dmScreenSettings.dmPelsHeight = height; // Selected Screen Height
-        dmScreenSettings.dmBitsPerPel = bits; // Selected Bits Per Pixel
-        dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
-        // Try To Set Selected Mode And Get Results.  NOTE: CDS_FULLSCREEN Gets Rid Of Start Bar.
-        if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL) {
-            // If The Mode Fails, Offer Two Options.  Quit Or Run In A Window.
-            if (MessageBox(NULL,
-                           "The Requested Fullscreen Mode Is Not Supported By\nYour Video Card. Use Windowed Mode Instead?",
-                           "NeHe GL", MB_YESNO | MB_ICONEXCLAMATION) == IDYES) {
-                fullscreen = FALSE; // Select Windowed Mode (Fullscreen=FALSE)
-            } else {
-                // Pop Up A Message Box Letting User Know The Program Is Closing.
-                MessageBox(NULL, "Program Will Now Close.", "ERROR", MB_OK | MB_ICONSTOP);
-                return FALSE; // Exit And Return FALSE
-            }
-        }
-    }
 
-    if (fullscreen) // Are We Still In Fullscreen Mode?
-    {
-        dwExStyle=WS_EX_APPWINDOW;                  // Window Extended Style
-        dwStyle=WS_POPUP;                       // Windows Style
-        ShowCursor(FALSE);                      // Hide Mouse Pointer
-    }
-    else
-    {
-        dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE; // Window Extended Style
-        dwStyle=WS_OVERLAPPEDWINDOW; // Windows Style
-    }
+
+    dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE; // Window Extended Style
+    dwStyle=WS_OVERLAPPEDWINDOW; // Windows Style
+
 
     AdjustWindowRectEx(&WindowRect, dwStyle, FALSE, dwExStyle); // Adjust Window To True Requested Size
     if (!(hWnd=CreateWindowEx(  dwExStyle, // Extended Style For The Window
@@ -419,13 +381,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     MSG msg; // Windows Message Structure
     BOOL done=FALSE; // Bool Variable To Exit Loop
 
-    if (MessageBox(NULL,"Would You Like To Run In Fullscreen Mode?", "Start FullScreen?",MB_YESNO|MB_ICONQUESTION)==IDNO)
-    {
-        fullscreen=FALSE; // Windowed Mode
-    }
 
     // Create Our OpenGL Window
-    if (!CreateGLWindow("QWindow",640,480,16,fullscreen))
+    if (!CreateGLWindow("QWindow",640,480,16,false))
     {
         return 0; // Quit If Window Was Not Created
     }
@@ -462,9 +420,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
             {
                 keys[VK_F1]=FALSE; // If So Make Key FALSE
                 KillGLWindow(); // Kill Our Current Window
-                fullscreen=!fullscreen; // Toggle Fullscreen / Windowed Mode
                 // Recreate Our OpenGL Window
-                if (!CreateGLWindow("QWindow",640,480,16,fullscreen))
+                if (!CreateGLWindow("QWindow",640,480,16,false))
                 {
                     return 0; // Quit If Window Was Not Created
                 }

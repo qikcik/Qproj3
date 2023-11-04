@@ -4,24 +4,21 @@
 
 
 BEGIN_GEN_QOBJ_STATIC_DEF(NativeWindow,Shred)
-    DynamicArray<OwnerPtr<Field>>
-    {
+selfPtr->fields = std::move(DynamicArray<OwnerPtr<Field>>
+{
 
-    },
-    DynamicArray<OwnerPtr<Method>>
-    {
-
-    }
+});
 END_GEN_QOBJ_STATIC_DEF()
 
 std::unordered_map<HWND,WeakPtr<NativeWindow>> NativeWindow::registered_windows{};
 
 NativeWindow::~NativeWindow()
 {
-    if (hwnd)
+    if (hwnd && hInstance)
     {
         DestroyWindow(hwnd);
         registered_windows.erase(hwnd);
+        UnregisterClass(getUniqueName().c_str(),hInstance);
     }
 }
 
@@ -45,10 +42,13 @@ bool NativeWindow::initializeNative(HINSTANCE in_hInstance, int nCmdShow)
 
     ENSURE_OR_RETURN(RegisterClassEx(&winClass),false);
 
+    int width = 300;
+    int height = 300;
+
     hInstance = in_hInstance;
     currentRegisteringWin = self;
         hwnd = CreateWindowEx(WS_EX_CLIENTEDGE, winClass.lpszClassName, self->id.name.c_str(), WS_OVERLAPPEDWINDOW,
-                              CW_USEDEFAULT, CW_USEDEFAULT, 240, 120, nullptr, nullptr, hInstance,
+                              CW_USEDEFAULT, CW_USEDEFAULT, width, height, nullptr, nullptr, hInstance,
                               nullptr);
     currentRegisteringWin = nullptr;
 
@@ -56,8 +56,13 @@ bool NativeWindow::initializeNative(HINSTANCE in_hInstance, int nCmdShow)
 
     registered_windows[hwnd] = self;
 
+    if(!postInitializeImpl())
+        return false;
+
     ShowWindow(hwnd, nCmdShow);
     UpdateWindow(hwnd);
+    SetFocus(hwnd);
+    onResizeImpl(width, height);
 
     return true;
 }
@@ -79,6 +84,22 @@ LRESULT CALLBACK NativeWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
             break;
         case WM_CLOSE:
             DestroyWindow(hwnd);
+            break;
+
+        case WM_ACTIVATE:
+            selfPtr->focused = !HIWORD(wParam);
+            break;
+
+        case WM_SIZE:
+            selfPtr->onResizeImpl(LOWORD(lParam),HIWORD(lParam));
+            return 0;
+
+        case WM_KEYDOWN:
+            selfPtr->keys[wParam] = true;
+            break;
+
+        case WM_KEYUP:
+            selfPtr->keys[wParam] = false;
             break;
 
         case WM_DESTROY:

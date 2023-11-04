@@ -4,7 +4,7 @@ project(QProj LANGUAGES CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS "-Wno-invalid-offsetof -fno-strict-aliasing")
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
 
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/module.cmake")
 

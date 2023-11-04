@@ -6,15 +6,11 @@ GEN_QSTRUCT_STATIC_DEF(ShredLocalIdentifier,{
 });
 
 BEGIN_GEN_QOBJ_STATIC_DEF(Shred,QObj)
-DynamicArray<OwnerPtr<Field>>
-{
-    GEN_QOBJ_DEF_FIELD_ENTRY(Shred,id),
-    GEN_QOBJ_DEF_FIELD_ENTRY(Shred,children)
-},
-DynamicArray<OwnerPtr<Method>>
-{
-
-}
+    selfPtr->fields = std::move(DynamicArray<OwnerPtr<Field>>
+    {
+        GEN_QOBJ_DEF_FIELD_ENTRY(Shred,id),
+        GEN_QOBJ_DEF_FIELD_ENTRY(Shred,children)
+    });
 END_GEN_QOBJ_STATIC_DEF()
 
 OwnerPtr<Shred> Shred::ConstructRoot(WeakPtr<QObjDef> in_class)
