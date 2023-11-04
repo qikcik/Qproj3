@@ -27,6 +27,12 @@ public:
     static OwnerPtr<Shred> ConstructRoot(WeakPtr<QObjDef> in_class);
 
 public:
+    template<std::derived_from<class Shred> T>
+    WeakPtr<T> appendChildren(std::string in_name) {
+        auto shred = appendChildren(T::staticDef.getWeak(),std::move(in_name));
+        return std::move(shred.template unsafe_cast<T>());
+    };
+
     WeakPtr<Shred> appendChildren(WeakPtr<QObjDef> in_class, std::string in_name,const std::function<void(WeakPtr<Shred>)>& in_beforePropagateRegistration = [](auto ptr){});
     std::string getUniqueName() {return id.getUniqueName(); }
     WeakPtr<Shred> getDirectParent() {return directParent; }

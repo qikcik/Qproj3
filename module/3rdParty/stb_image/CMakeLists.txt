@@ -1,0 +1,1 @@
+defineModule("3rdParty_stb_image")

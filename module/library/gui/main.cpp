@@ -5,6 +5,7 @@
 #include "gui/nativeLabel.hpp"
 #include "typeSystem/converter.hpp"
 #include "json/parser.hpp"
+#include <gl/gl.h>
 
 GEN_QSTRUCT(App)
 {
@@ -42,8 +43,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     else
     {
         app.root = Shred::ConstructRoot(Shred::staticDef.getWeak());
-        auto win = app.root->appendChildren(NativeWindow::staticDef.getWeak(),"window!").unsafe_cast<NativeWindow>();
-        auto lbl = win->appendChildren(NativeLabel::staticDef.getWeak(),"window!").unsafe_cast<NativeLabel>();
+        auto win = app.root->appendChildren<NativeWindow>("window!");
+        auto lbl = win->appendChildren<NativeLabel>("label");
         lbl->setText("test");
         lbl->setScreenRect({{},20,20,100,100});
     }

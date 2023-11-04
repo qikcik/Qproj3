@@ -15,5 +15,4 @@ public:
 protected:
     FIELD(serializable{instance},description{"display text"});
     std::string text;
-
 };
