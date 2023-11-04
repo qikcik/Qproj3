@@ -8,7 +8,7 @@ public:
     explicit OwnerObjPtrField(const WeakPtr<QObjDef>& in_type) : type(in_type) {}
     ~OwnerObjPtrField() override = default;
 
-    const WeakPtr<QObjDef> type;
+    const WeakPtr<QObjDef> type; // TODO: useless on the time of generation to itself, in not initiated yet
 
     std::string getTypeDesc() const override;
 

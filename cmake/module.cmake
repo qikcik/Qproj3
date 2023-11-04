@@ -96,7 +96,7 @@ macro(defineExecutableForModule MODULE)
     endif()
 
     #ASSET
-    file(REMOVE_RECURSE ${CMAKE_CURRENT_BINARY_DIR}/asset)
-    file(COPY ${CMAKE_SOURCE_DIR}/asset DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+    #file(REMOVE_RECURSE ${CMAKE_CURRENT_BINARY_DIR}/asset)
+    #file(COPY ${CMAKE_SOURCE_DIR}/asset DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
 endmacro()

@@ -32,6 +32,7 @@ public:
 
     DynamicArray<WeakPtr<Field>> getFields() const;
     WeakPtr<Field> getField(const std::string& in_name) const;
+    bool isBaseOrSame(WeakPtr<QObjDef> in_other) const;
 
     const WeakPtr<QObjDef> baseObjDef {};
     const std::string name;

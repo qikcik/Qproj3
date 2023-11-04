@@ -87,7 +87,7 @@ void DynamicArray<TType>::push_back(element_type in_element) noexcept
 template<typename TType>
 void DynamicArray<TType>::reserve(size_t in_capacity) noexcept
 {
-    ENSURE_OR_RETURN(in_capacity > capacity,);
+    ENSURE_OR_RETURN(in_capacity > capacity || capacity == 0,);
 
     capacity = in_capacity;
     auto newArr = allocate_memory(capacity,sizeof(TType));
@@ -116,7 +116,7 @@ void DynamicArray<TType>::clear() noexcept
 template<typename TType>
 TType* DynamicArray<TType>::allocate_memory(size_t in_capacity,size_t in_elementSize) noexcept
 {
-    auto* bytePtr = new uint8_t[in_capacity * in_elementSize];
+    auto* bytePtr = malloc(in_capacity * in_elementSize);
     auto memberPtr = reinterpret_cast<TType*>(bytePtr);
     LOG_DBG("allocated on addr:({})", PTR_TO_STR(memberPtr));
     return memberPtr;
@@ -128,5 +128,5 @@ void DynamicArray<TType>::deallocate_memory(element_type* in_addr) noexcept
     DBG_ENSURE_OR_RETURN(in_addr,);
     LOG_DBG("deallocating on addr:({})", PTR_TO_STR(in_addr));
 
-    delete[] (uint8_t*)in_addr;
+    free(in_addr);
 }

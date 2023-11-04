@@ -34,7 +34,7 @@ public:
 
     inline void allocate_memory(size_t in_memorySize) {
         if(ptr) deallocate_memory();
-        ptr = new uint8_t[in_memorySize];
+        ptr = malloc(in_memorySize);
 
         LOG_DBG("allocated on addr:({})", PTR_TO_STR(ptr));
     }
@@ -43,7 +43,7 @@ public:
         ENSURE_OR_RETURN(ptr,);
         LOG_DBG("deallocating on addr:({})", PTR_TO_STR(ptr));
 
-        delete[] (uint8_t*)ptr;
+        free(ptr);
         ptr = nullptr;
     }
 

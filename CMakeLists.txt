@@ -12,3 +12,5 @@ add_subdirectory("module/common/template")
 add_subdirectory("module/util/json")
 add_subdirectory("module/core/typeSystem")
 add_subdirectory("module/core/shred")
+
+add_subdirectory("module/library/gui")

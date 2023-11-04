@@ -7,6 +7,7 @@ class RuntimeTypeInformation
 public:
     void registerQObjDef(const WeakPtr<QObjDef> inQStructTypes)
     {
+        LOG_INF("registering type {}", inQStructTypes->name);
         QObjDef[inQStructTypes->name] = inQStructTypes;
     }
     const WeakPtr<QObjDef> getDynamicType(const std::string& inTypeName) const

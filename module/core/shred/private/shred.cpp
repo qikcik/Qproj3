@@ -21,9 +21,11 @@ OwnerPtr<Shred> Shred::ConstructRoot(WeakPtr<QObjDef> in_class)
 {
     ENSURE(in_class);
     OwnerPtr<Shred> shred;
-    shred.unsafe_createInstance(in_class->memorySize, [in_class](auto in_weak){
+    shred.unsafe_createInstance(in_class->memorySize, [&](auto in_weak){
         in_class->constructInstance(in_weak);
     });
+    shred->id = {{},"root",0};
+    shred->children.reserve(8);
     return std::move(shred);
 }
 
@@ -33,7 +35,8 @@ WeakPtr<Shred> Shred::appendChildren(WeakPtr<QObjDef> in_class, std::string in_n
     ENSURE(in_class);
 
     OwnerPtr<Shred> shred;
-    shred.unsafe_createInstance(in_class->memorySize, [in_class](auto in_weak) {
+
+    shred.unsafe_createInstance(in_class->memorySize, [&](auto in_weak){
         in_class->constructInstance(in_weak);
     });
 

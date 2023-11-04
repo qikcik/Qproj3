@@ -39,7 +39,7 @@ public:
     void unsafe_createInstance(size_t in_size, std::function<void(WeakPtr<TType>)> in_construct)
     {
         block = PtrBlock::create_block();
-        block->allocate_memory(sizeof(TType));
+        block->allocate_memory(in_size);
         in_construct(WeakPtr<TType>(block));
     }
 

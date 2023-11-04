@@ -16,7 +16,7 @@ public:
     };
 
     json::innerType toJson(void* in_addr) const  override {
-        auto& value = *reinterpret_cast<std::string*>(in_addr);
+        auto value = *reinterpret_cast<std::string*>(in_addr);
         return json::Value(value);
     }
 

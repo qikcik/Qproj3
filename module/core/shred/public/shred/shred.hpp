@@ -7,6 +7,7 @@
 #include "typeSystem/macros.hpp"
 #include "typeSystem/structMacros.hpp"
 
+#include <stack>
 
 GEN_QSTRUCT(ShredLocalIdentifier)
 {
@@ -28,6 +29,40 @@ public:
 public:
     WeakPtr<Shred> appendChildren(WeakPtr<QObjDef> in_class, std::string in_name,const std::function<void(WeakPtr<Shred>)>& in_beforePropagateRegistration = [](auto ptr){});
     std::string getUniqueName() {return id.getUniqueName(); }
+    WeakPtr<Shred> getDirectParent() {return directParent; }
+
+
+    template<class T>
+    DynamicArray<WeakPtr<T>> getChildsOfClass_singleDeep()
+    {
+        DynamicArray<WeakPtr<T>> result;
+        std::stack<WeakPtr<Shred>> stack;
+        stack.push(selfPtr.unsafe_cast<Shred>());
+        while(!stack.empty())
+        {
+            auto& el = stack.top(); stack.pop();
+            for(auto& childIt : el->children)
+            {
+                if( childIt->getObjDef()->isBaseOrSame( T::staticDef.getWeak() ))
+                    result.push_back(childIt.getWeak().unsafe_cast<T>());
+                else
+                    stack.push(childIt.getWeak());
+            }
+        }
+        return result;
+    }
+
+    template<class T>
+    WeakPtr<T> getDirectChildOfClass()
+    {
+        for( auto& childIt : children)
+        {
+            if( childIt->getObjDef()->isBaseOrSame( T::staticDef.getWeak() ))
+                return childIt.getWeak().unsafe_cast<T>();
+        }
+        return {};
+    }
+
 public:
     void postLoad() override;
 

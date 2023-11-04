@@ -19,9 +19,9 @@ json::innerType OwnerObjPtrField::toJson(void* in_addr) const
 
     result.set("objDef",json::Value(asQObj->getObjDef()->name));
 
-    for(const auto& fieldIt : type->getFields())
+    for(const auto& fieldIt : asQObj->getObjDef()->getFields())
     {
-        auto field_addr = fieldIt->getValuePtr<void>((QStruct*)in_addr);
+        auto field_addr = fieldIt->getValuePtr<void>(asQObj);
         result.set(fieldIt->name,fieldIt->type->toJson(field_addr));
     }
     return result;
@@ -51,12 +51,13 @@ void OwnerObjPtrField::fromJson(void* in_addr, const json::innerType& in_json,Lo
 
     for( auto& entryIt : json.entries)
     {
-        auto field = type->getField(entryIt.first);
-        auto entryIt_addr = field->getValuePtr<void>(in_addr);
+        auto field = objDef->getField(entryIt.first);
         if(!field) {
             LOG_WRN("tried to set not existed property:({})",entryIt.first)
             continue;
         }
+
+        auto entryIt_addr = field->getValuePtr<void>(asOwnerPtr->getPtr());
         field->type->fromJson(entryIt_addr,entryIt.second,in_context);
     }
 }

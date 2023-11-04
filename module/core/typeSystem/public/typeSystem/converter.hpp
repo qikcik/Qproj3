@@ -9,7 +9,7 @@
 class Converter
 {
 public:
-    explicit Converter(const RuntimeTypeInformation& in_rti = {}) : rti(in_rti) {};
+    explicit Converter(const RuntimeTypeInformation& in_rti) : rti(in_rti) {};
 
     json::Object qstructToJson(QStruct* in_addr, WeakPtr<QStructDef> in_class);
 
