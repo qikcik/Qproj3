@@ -8,7 +8,10 @@ GEN_QOBJ(OpenGlWindow,NativeWindow)
 GEN_QOBJ_BODY(OpenGlWindow,NativeWindow);
 GEN_QOBJ_DEF_CONSTRUCTOR(OpenGlWindow,NativeWindow);
 public:
-    void onUpdate(float in_delta) override;
+    void handleUpdate(float in_delta) override;
+
+    std::function<void()> onInit {};
+    std::function<void(float in_delta)> onUpdate {};
 
     ~OpenGlWindow() override;
 protected:

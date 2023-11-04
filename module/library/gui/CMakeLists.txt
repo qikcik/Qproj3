@@ -1,5 +1,6 @@
 defineModule("library_gui")
 addModuleDependency("library_gui" "core_shred")
+addModuleDependency("library_gui" "3rdParty_stb_image")
 defineExecutableForModule("library_gui")
 addDependency("library_gui" OpenGL::GL)
 addDependency("library_gui" OpenGL::GLU)

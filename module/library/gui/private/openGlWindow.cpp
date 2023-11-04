@@ -64,46 +64,15 @@ bool OpenGlWindow::postInitializeImpl()
         return false;
 
     InitGL();
+    onInit();
     return true;
 }
 
-void OpenGlWindow::onUpdate(float in_delta)
+void OpenGlWindow::handleUpdate(float in_delta)
 {
-    //if(!focused) return;
+    if(!focused) return;
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
-    glLoadIdentity();                   // Reset The View
-    glTranslatef(-1.5f,0.0f,-6.0f);             // Move Left And Into The Screen
-
-    glBegin(GL_TRIANGLES);                  // Start Drawing The Pyramid
-    glColor3f(1.0f,0.0f,0.0f);          // Red
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Front)
-    glColor3f(0.0f,1.0f,0.0f);          // Green
-    glVertex3f(-1.0f,-1.0f, 1.0f);          // Left Of Triangle (Front)
-    glColor3f(0.0f,0.0f,1.0f);          // Blue
-    glVertex3f( 1.0f,-1.0f, 1.0f);          // Right Of Triangle (Front)
-
-    glColor3f(1.0f,0.0f,0.0f);          // Red
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Right)
-    glColor3f(0.0f,0.0f,1.0f);          // Blue
-    glVertex3f( 1.0f,-1.0f, 1.0f);          // Left Of Triangle (Right)
-    glColor3f(0.0f,1.0f,0.0f);          // Green
-    glVertex3f( 1.0f,-1.0f, -1.0f);         // Right Of Triangle (Right)
-
-    glColor3f(1.0f,0.0f,0.0f);          // Red
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Back)
-    glColor3f(0.0f,1.0f,0.0f);          // Green
-    glVertex3f( 1.0f,-1.0f, -1.0f);         // Left Of Triangle (Back)
-    glColor3f(0.0f,0.0f,1.0f);          // Blue
-    glVertex3f(-1.0f,-1.0f, -1.0f);         // Right Of Triangle (Back)
-
-    glColor3f(1.0f,0.0f,0.0f);          // Red
-    glVertex3f( 0.0f, 1.0f, 0.0f);          // Top Of Triangle (Left)
-    glColor3f(0.0f,0.0f,1.0f);          // Blue
-    glVertex3f(-1.0f,-1.0f,-1.0f);          // Left Of Triangle (Left)
-    glColor3f(0.0f,1.0f,0.0f);          // Green
-    glVertex3f(-1.0f,-1.0f, 1.0f);          // Right Of Triangle (Left)
-    glEnd();                        // Done Drawing The Pyramid
+    onUpdate(in_delta);
 
     SwapBuffers(hDC);
 }

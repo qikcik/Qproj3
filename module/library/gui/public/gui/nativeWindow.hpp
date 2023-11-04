@@ -10,12 +10,14 @@ GEN_QOBJ_BODY(NativeWindow,Shred);
 GEN_QOBJ_DEF_CONSTRUCTOR(NativeWindow,Shred);
 public:
     bool initializeNative(HINSTANCE in_hInstance, int nCmdShow);
-    virtual void onUpdate(float in_delta) {};
+    virtual void handleUpdate(float in_delta) {};
 
     ~NativeWindow() override;
 
     HWND getHwnd()  {return hwnd;};
     HINSTANCE getHInstance()  {return hInstance;};
+
+    bool isKeyPressed(uint8_t in_id) {return keys[in_id];};
 
 protected:
     FIELDS_BEGIN(description{"win32 api internal"})

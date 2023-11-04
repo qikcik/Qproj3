@@ -24,6 +24,7 @@ GEN_QOBJ(Shred,QObj)
     GEN_QOBJ_BODY(Shred,QObj);
     GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(Shred,QObj);
 public:
+
     static OwnerPtr<Shred> ConstructRoot(WeakPtr<QObjDef> in_class);
 
 public:
