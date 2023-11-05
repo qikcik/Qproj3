@@ -20,3 +20,4 @@ add_subdirectory("module/core/shred")
 
 add_subdirectory("module/library/gui")
 add_subdirectory("module/library/openGl")
+add_subdirectory("module/library/propertyViewer")

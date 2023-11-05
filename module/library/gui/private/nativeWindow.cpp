@@ -107,10 +107,10 @@ LRESULT CALLBACK NativeWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
             break;
 
         case WM_COMMAND:
-            //for (auto& widgetIt: selfPtr->widgets) {
-            //    if (widgetIt.getPtr()->hwnd == (HWND) lParam)
-            //        widgetIt.getPtr()->receivedCommand();
-            //}
+            for (auto& widgetIt: selfPtr->getChildsOfClass_singleDeep<NativeWidget>()) {
+                if (widgetIt.getPtr()->getHwnd() == (HWND) lParam)
+                    widgetIt.getPtr()->handleCommand();
+            }
             break;
 
         default:
@@ -118,4 +118,10 @@ LRESULT CALLBACK NativeWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
     }
 
     return 0;
+}
+
+int NativeWindow::getNewHmenuIdx()
+{
+    lastHMenuIdx++;
+    return lastHMenuIdx;
 }

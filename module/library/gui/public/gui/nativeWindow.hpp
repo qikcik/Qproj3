@@ -16,6 +16,7 @@ public:
 
     HWND getHwnd()  {return hwnd;};
     HINSTANCE getHInstance()  {return hInstance;};
+    int getNewHmenuIdx();
 
     bool isKeyPressed(uint8_t in_id) {return keys[in_id];};
 
@@ -24,7 +25,7 @@ protected:
         WNDCLASSEX winClass {};
         HWND hwnd {};
         HINSTANCE hInstance {};
-        int lastHMENUIdx {0};
+        int lastHMenuIdx {0};
 
         bool focused {false};
         bool keys[256] = {};
