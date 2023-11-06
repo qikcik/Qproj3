@@ -32,7 +32,7 @@ public:
 
     template<std::derived_from<TType> TOther> // down-casting
     WeakPtr(WeakPtr<TOther>&& other)  noexcept {
-        if(this == reinterpret_cast<WeakPtr<TType>*>(&other)) return;
+        if(this == static_cast<WeakPtr<TType>*>(&other)) return;
 
         block = other.block;
         other.block = nullptr;
@@ -46,17 +46,22 @@ public:
 
     TType* operator->() {
         if(!block) return nullptr;
-        return reinterpret_cast<TType*>(block->getPtr());
+        return static_cast<TType*>(block->getPtr());
     };
 
     TType* getPtr() {
         if(!block) return nullptr;
-        return reinterpret_cast<TType*>(block->getPtr());
+        return static_cast<TType*>(block->getPtr());
+    };
+
+    TType* dynamic_getPtr() {
+        if(!block) return nullptr;
+        return dynamic_cast<TType*>(block->getPtr());
     };
 
     const TType* operator->() const {
         if(!block) return nullptr;
-        return reinterpret_cast<TType*>(block->getPtr());
+        return static_cast<TType*>(block->getPtr());
     };
 
 

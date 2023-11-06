@@ -10,7 +10,6 @@ GEN_QOBJ_BODY(NativeWindow,Shred);
 GEN_QOBJ_DEF_CONSTRUCTOR(NativeWindow,Shred);
 public:
     bool initializeNative(HINSTANCE in_hInstance, int nCmdShow);
-    virtual void handleUpdate(float in_delta) {};
 
     ~NativeWindow() override;
 

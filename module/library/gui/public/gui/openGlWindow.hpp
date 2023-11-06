@@ -1,14 +1,15 @@
 #pragma once
 #include "shred/shred.hpp"
 #include "gui/nativeWindow.hpp"
+#include "tickable.hpp"
 #include <windows.h>
 
-GEN_QOBJ(OpenGlWindow,NativeWindow)
+GEN_QOBJ(OpenGlWindow,NativeWindow), public Tickable
 {
 GEN_QOBJ_BODY(OpenGlWindow,NativeWindow);
 GEN_QOBJ_DEF_CONSTRUCTOR(OpenGlWindow,NativeWindow);
 public:
-    void handleUpdate(float in_delta) override;
+    void handleTick(float delta) override;
 
     std::function<void()> onInit {};
     std::function<void(float in_delta)> onUpdate {};

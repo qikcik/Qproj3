@@ -1,5 +1,6 @@
 #include "gui/nativeController.hpp"
 #include "gui/nativeWindow.hpp"
+#include "gui/tickable.hpp"
 
 BEGIN_GEN_QOBJ_STATIC_DEF(NativeController,Shred)
 selfPtr->fields = std::move(DynamicArray<OwnerPtr<Field>>
@@ -33,8 +34,10 @@ void NativeController::loop(HINSTANCE in_hInstance, int nCmdShow)
             }
         }
         else {
-            for( auto& winIt : getChildsOfClass_singleDeep<NativeWindow>())
-                winIt->handleUpdate(1 / 60.f); // TODO change to real delta
+            for( auto& winIt : getChildsOfClass_singleDeep<Tickable>())
+            {
+                winIt.dynamic_getPtr()->handleTick(1 / 60.f); // TODO change to real delta
+            }
         }
     }
 }

@@ -12,14 +12,18 @@ END_GEN_QOBJ_STATIC_DEF()
 void QStructPropertyView::set(QStruct* in_ptr, WeakPtr<QStructDef> in_def)
 {
     //TODO: Assumed that is called only once
-    Vec2 pos = {{},0,0};
+    Vec2 nextPos = pos;
+    int maxX {0};
     for(auto& fieldIt : in_def->getFields())
     {
-        if(dynamic_cast<StdStringField*>(fieldIt->type.unsafe_getPtr()))
+        if(dynamic_cast<QStructField*>(fieldIt->type.unsafe_getPtr()))
         {
             auto asQStruct = fieldIt->type.getWeak().unsafe_cast<QStructField>();
-
-            //TODO:
+            auto qstruct = appendChildren<QStructPropertyView>(fieldIt->name);
+            qstruct->setPosition(nextPos);
+            qstruct->set( fieldIt->getValuePtr<QStruct>(in_ptr), asQStruct->type );
+            nextPos = {{}, 0, nextPos.y + qstruct->getSize().y};
+            if(qstruct->getSize().y > maxX) maxX = qstruct->getSize().y;
         }
 
         if(dynamic_cast<StdStringField*>(fieldIt->type.unsafe_getPtr()))
@@ -27,18 +31,31 @@ void QStructPropertyView::set(QStruct* in_ptr, WeakPtr<QStructDef> in_def)
             auto asString = fieldIt->type.getWeak().unsafe_cast<StdStringField>();
 
             auto prop = appendChildren<StringPropertyView>(fieldIt->name);
+            prop->setPosition(nextPos);
             prop->set( fieldIt->getValuePtr<void>(in_ptr), fieldIt->name, asString );
-            prop->setPosition(pos);
-            pos = {{},0,pos.y+prop->getSize().y};
+            nextPos = {{}, 0, nextPos.y + prop->getSize().y};
+            if(prop->getSize().y > maxX) maxX = prop->getSize().y;
         }
         if(dynamic_cast<FloatField*>(fieldIt->type.unsafe_getPtr()))
         {
             auto asFloat = fieldIt->type.getWeak().unsafe_cast<FloatField>();
 
             auto prop = appendChildren<FloatPropertyView>(fieldIt->name);
+            prop->setPosition(nextPos);
             prop->set( fieldIt->getValuePtr<void>(in_ptr), fieldIt->name, asFloat );
-            prop->setPosition(pos);
-            pos = {{},0,pos.y+prop->getSize().y};
+            nextPos = {{}, 0, nextPos.y + prop->getSize().y};
+            if(prop->getSize().y > maxX) maxX = prop->getSize().y;
         }
     }
+    size = {{}, maxX, nextPos.y};
+}
+
+Vec2 QStructPropertyView::getSize()
+{
+    return size;
+}
+
+void QStructPropertyView::setPosition(Vec2 in_pos)
+{
+    pos = in_pos;
 }

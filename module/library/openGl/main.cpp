@@ -14,6 +14,23 @@
 #include "propertyViewer/stringPropertyView.hpp"
 #include "propertyViewer/qstructPropertyView.hpp"
 
+GEN_QSTRUCT(Vec3)
+{
+    GEN_QSTRUCT_BODY(Vec3)
+public:
+    FIELDS_BEGIN(serializable{instance})
+        float x {0};
+        float y {0};
+        float z {0};
+    FIELDS_END()
+};
+
+GEN_QSTRUCT_STATIC_DEF(Vec3,{
+    GEN_QSTRUCT_FIELD_ENTRY(Vec3,x),
+    GEN_QSTRUCT_FIELD_ENTRY(Vec3,y),
+    GEN_QSTRUCT_FIELD_ENTRY(Vec3,z),
+});
+
 
 GEN_QSTRUCT(App)
 {
@@ -21,17 +38,16 @@ GEN_QSTRUCT(App)
 public:
     FIELDS_BEGIN(serializable{instance})
     OwnerPtr<Shred> root {};
-    float x {0};
-    float y {0};
-    float z {0};
+    Vec3 pos = {};
+    Vec3 rot = {};
+
     FIELDS_END()
 };
 
 GEN_QSTRUCT_STATIC_DEF(App,{
     GEN_QSTRUCT_FIELD_ENTRY(App,root),
-    GEN_QSTRUCT_FIELD_ENTRY(App,x),
-    GEN_QSTRUCT_FIELD_ENTRY(App,y),
-    GEN_QSTRUCT_FIELD_ENTRY(App,z),
+    GEN_QSTRUCT_FIELD_ENTRY(App,pos),
+    GEN_QSTRUCT_FIELD_ENTRY(App,rot),
 });
 
 
@@ -90,8 +106,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
     auto gl = controller->appendChildren<OpenGlWindow>("gl");
     GLuint texture[3];
-    float rotX {0};
-    float rotY {0};
     float z {-5};
     bool light {false};
     GLfloat LightAmbient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
@@ -130,11 +144,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
     gl->onUpdate = [&](float delta)
     {
-        if(gl->isKeyPressed(VK_UP)) rotX-= 2;
-        if(gl->isKeyPressed(VK_DOWN)) rotX+= 2;
-        if(gl->isKeyPressed(VK_LEFT)) rotY-= 2;
-        if(gl->isKeyPressed(VK_RIGHT)) rotY+= 2;
-
         if (gl->isKeyPressed('L') && !lp)
         {
             lp=true;
@@ -158,15 +167,18 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
             fp = false;
 
         if (gl->isKeyPressed(VK_PRIOR))
-            z+=0.05f;
+            app.pos.z+=0.05f;
         if (gl->isKeyPressed(VK_NEXT))
-            z-=0.05f;
+            app.pos.z-=0.05f;
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glLoadIdentity();
-        glTranslatef(app.x,app.y,app.z);
-        glRotatef(rotX,1.0f,0.0f,0.0f);
-        glRotatef(rotY,0.0f,1.0f,0.0f);
+        glTranslatef(app.pos.x,app.pos.y,app.pos.z);
+
+        glRotatef(app.rot.x,1.0f,0.0f,0.0f);
+        glRotatef(app.rot.y,0.0f,1.0f,0.0f);
+        glRotatef(app.rot.z,0.0f,0.0f,1.0f);
+
         glColor3f(1.0f,1.0f,1.0f);
         glBindTexture(GL_TEXTURE_2D, texture[filter]);
         glBegin(GL_QUADS);

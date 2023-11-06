@@ -9,7 +9,6 @@ GEN_QOBJ(StringPropertyView,Shred)
 GEN_QOBJ_BODY(StringPropertyView,Shred);
 GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(StringPropertyView,Shred);
 public:
-
     Vec2 getSize();
     void setPosition(Vec2 in_pos);
 

@@ -68,14 +68,6 @@ bool OpenGlWindow::postInitializeImpl()
     return true;
 }
 
-void OpenGlWindow::handleUpdate(float in_delta)
-{
-    if(!focused) return;
-
-    onUpdate(in_delta);
-
-    SwapBuffers(hDC);
-}
 
 void OpenGlWindow::InitGL()
 {
@@ -103,4 +95,13 @@ void OpenGlWindow::onResizeImpl(int in_x, int in_y)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+}
+
+void OpenGlWindow::handleTick(float in_delta)
+{
+    if(!focused) return;
+
+    onUpdate(in_delta);
+
+    SwapBuffers(hDC);
 }
