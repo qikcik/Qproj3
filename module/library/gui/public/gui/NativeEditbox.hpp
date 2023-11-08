@@ -4,8 +4,6 @@
 #include <functional>
 
 
-
-
 GEN_QOBJ(NativeEditbox,NativeWidget)
 {
 GEN_QOBJ_BODY(NativeEditbox,NativeWidget);

@@ -11,6 +11,7 @@ END_GEN_QOBJ_STATIC_DEF()
 void NativeEditbox::setText(const std::string& in_string)
 {
     text = in_string;
+    if(hwnd) SetWindowText(hwnd, text.c_str());
 }
 
 const std::string& NativeEditbox::getText() const

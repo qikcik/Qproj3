@@ -60,6 +60,26 @@ public:
     }
 
     template<class T>
+    DynamicArray<std::pair<WeakPtr<Shred>,T*>> getChildsWithNativeInterface_singleDeep()
+    {
+        DynamicArray<std::pair<WeakPtr<Shred>,T*>> result;
+        std::stack<WeakPtr<Shred>> stack;
+        stack.push(selfPtr.unsafe_cast<Shred>());
+        while(!stack.empty())
+        {
+            auto& el = stack.top(); stack.pop();
+            for(auto& childIt : el->children)
+            {
+                if( auto* asInterface = dynamic_cast<T*>(childIt.getPtr()))
+                    result.push_back({childIt.getWeak(),asInterface} );
+                else
+                    stack.push(childIt.getWeak());
+            }
+        }
+        return result;
+    }
+
+    template<class T>
     WeakPtr<T> getDirectChildOfClass()
     {
         for( auto& childIt : children)

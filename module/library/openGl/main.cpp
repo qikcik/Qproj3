@@ -13,6 +13,7 @@
 #include "gui/NativeEditbox.hpp"
 #include "propertyViewer/stringPropertyView.hpp"
 #include "propertyViewer/qstructPropertyView.hpp"
+#include "gui/nativeGroupbox.hpp"
 
 GEN_QSTRUCT(Vec3)
 {
@@ -38,8 +39,9 @@ GEN_QSTRUCT(App)
 public:
     FIELDS_BEGIN(serializable{instance})
     OwnerPtr<Shred> root {};
-    Vec3 pos = {};
+    Vec3 pos = {{},0,0,-8};
     Vec3 rot = {};
+    Vec3 rotChange = {};
 
     FIELDS_END()
 };
@@ -48,6 +50,7 @@ GEN_QSTRUCT_STATIC_DEF(App,{
     GEN_QSTRUCT_FIELD_ENTRY(App,root),
     GEN_QSTRUCT_FIELD_ENTRY(App,pos),
     GEN_QSTRUCT_FIELD_ENTRY(App,rot),
+    GEN_QSTRUCT_FIELD_ENTRY(App,rotChange),
 });
 
 
@@ -89,6 +92,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     rti.registerQObjDef(OpenGlWindow::staticDef.getWeak()); OpenGlWindow::staticDef->initializeQObjDef();
     rti.registerQObjDef(NativeController::staticDef.getWeak()); NativeController::staticDef->initializeQObjDef();
     rti.registerQObjDef(NativeEditbox::staticDef.getWeak()); NativeEditbox::staticDef->initializeQObjDef();
+    rti.registerQObjDef(NativeGroupbox::staticDef.getWeak()); NativeGroupbox::staticDef->initializeQObjDef();
     rti.registerQObjDef(StringPropertyView::staticDef.getWeak()); StringPropertyView::staticDef->initializeQObjDef();
     rti.registerQObjDef(QStructPropertyView::staticDef.getWeak()); QStructPropertyView::staticDef->initializeQObjDef();
     Converter conv(rti);
@@ -98,7 +102,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     auto controller = app.root->appendChildren<NativeController>("window!");
     auto win = controller->appendChildren<NativeWindow>("winApi");
     auto strct = win->appendChildren<QStructPropertyView>("struct");
-    strct->set(&app,App::staticDef.getWeak());
+    strct->setPosition({{},5,5});
+    strct->set("App",&app,App::staticDef.getWeak());
 
 
 
@@ -139,6 +144,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
         glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse);
         glLightfv(GL_LIGHT1, GL_POSITION,LightPosition);
         glEnable(GL_LIGHT1);
+        glEnable(GL_LIGHTING);
         return true;
     };
 
@@ -170,6 +176,10 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
             app.pos.z+=0.05f;
         if (gl->isKeyPressed(VK_NEXT))
             app.pos.z-=0.05f;
+
+        app.rot.x += app.rotChange.x;
+        app.rot.y += app.rotChange.y;
+        app.rot.z += app.rotChange.z;
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glLoadIdentity();

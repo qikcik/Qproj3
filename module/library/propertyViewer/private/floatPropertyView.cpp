@@ -22,7 +22,7 @@ float toString(const std::string& in_str)
 
 void FloatPropertyView::set(void* in_ptr, std::string name, WeakPtr<FloatField> in_type)
 {
-    auto* ptr = static_cast<float*>(in_ptr);
+    ptr = static_cast<float*>(in_ptr);
 
     label = appendChildren<NativeLabel>("label");
     label->setText(name);
@@ -31,8 +31,9 @@ void FloatPropertyView::set(void* in_ptr, std::string name, WeakPtr<FloatField> 
     edit->setText(std::to_string(*ptr));
     edit->setType(NativeEditbox::Type::Float);
 
-    edit->onChange = [ptr](auto in_edit){
-        *ptr = toString(in_edit->getText());
+    auto lambdaPtr = ptr;
+    edit->onChange = [lambdaPtr](auto in_edit){
+        *lambdaPtr = toString(in_edit->getText());
     };
 
     setPosition(pos);
@@ -50,10 +51,12 @@ void FloatPropertyView::setPosition(Vec2 in_pos)
     if(edit) edit->setScreenRect({{},in_pos.x+100,in_pos.y,100,20});
 }
 
-//void FloatPropertyView::handleTick(float delta)
-//{
-//    //ENSURE_OR_RETURN(edit,);
-//    //auto val = toString(edit->getText());
-//    //if(*ptr != val)
-//    //    *ptr = val;
-//}
+void FloatPropertyView::handleTick(float delta)
+{
+    DBG_ENSURE_OR_RETURN(edit,);
+    auto val = toString(edit->getText());
+    if(*ptr != val)
+    {
+        edit->setText(std::to_string(*ptr));
+    }
+}

@@ -10,7 +10,7 @@ public:
     Vec2 getSize();
     void setPosition(Vec2 in_pos);
 
-    void set(QStruct* in_ptr, WeakPtr<QStructDef> in_def);
+    void set(const std::string& name, QStruct* in_ptr, WeakPtr<QStructDef> in_def);
 protected:
     Vec2 size {};
     Vec2 pos {};

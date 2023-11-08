@@ -1,6 +1,7 @@
 #include "propertyViewer/qstructPropertyView.hpp"
 #include "propertyViewer/stringPropertyView.hpp"
 #include "propertyViewer/floatPropertyView.hpp"
+#include "gui/nativeGroupbox.hpp"
 
 BEGIN_GEN_QOBJ_STATIC_DEF(QStructPropertyView,Shred)
 selfPtr->fields = std::move(DynamicArray<OwnerPtr<Field>>
@@ -9,10 +10,13 @@ selfPtr->fields = std::move(DynamicArray<OwnerPtr<Field>>
 });
 END_GEN_QOBJ_STATIC_DEF()
 
-void QStructPropertyView::set(QStruct* in_ptr, WeakPtr<QStructDef> in_def)
+void QStructPropertyView::set(const std::string& name, QStruct* in_ptr, WeakPtr<QStructDef> in_def)
 {
     //TODO: Assumed that is called only once
     Vec2 nextPos = pos;
+    nextPos.x += 5;
+    nextPos.y += 25;
+
     int maxX {0};
     for(auto& fieldIt : in_def->getFields())
     {
@@ -21,9 +25,9 @@ void QStructPropertyView::set(QStruct* in_ptr, WeakPtr<QStructDef> in_def)
             auto asQStruct = fieldIt->type.getWeak().unsafe_cast<QStructField>();
             auto qstruct = appendChildren<QStructPropertyView>(fieldIt->name);
             qstruct->setPosition(nextPos);
-            qstruct->set( fieldIt->getValuePtr<QStruct>(in_ptr), asQStruct->type );
-            nextPos = {{}, 0, nextPos.y + qstruct->getSize().y};
-            if(qstruct->getSize().y > maxX) maxX = qstruct->getSize().y;
+            qstruct->set( fieldIt->name, fieldIt->getValuePtr<QStruct>(in_ptr), asQStruct->type );
+            nextPos = {{}, nextPos.x, nextPos.y + qstruct->getSize().y};
+            if(qstruct->getSize().x > maxX) maxX = qstruct->getSize().x;
         }
 
         if(dynamic_cast<StdStringField*>(fieldIt->type.unsafe_getPtr()))
@@ -33,8 +37,8 @@ void QStructPropertyView::set(QStruct* in_ptr, WeakPtr<QStructDef> in_def)
             auto prop = appendChildren<StringPropertyView>(fieldIt->name);
             prop->setPosition(nextPos);
             prop->set( fieldIt->getValuePtr<void>(in_ptr), fieldIt->name, asString );
-            nextPos = {{}, 0, nextPos.y + prop->getSize().y};
-            if(prop->getSize().y > maxX) maxX = prop->getSize().y;
+            nextPos = {{}, nextPos.x, nextPos.y + prop->getSize().y};
+            if(prop->getSize().x > maxX) maxX = prop->getSize().x;
         }
         if(dynamic_cast<FloatField*>(fieldIt->type.unsafe_getPtr()))
         {
@@ -43,11 +47,16 @@ void QStructPropertyView::set(QStruct* in_ptr, WeakPtr<QStructDef> in_def)
             auto prop = appendChildren<FloatPropertyView>(fieldIt->name);
             prop->setPosition(nextPos);
             prop->set( fieldIt->getValuePtr<void>(in_ptr), fieldIt->name, asFloat );
-            nextPos = {{}, 0, nextPos.y + prop->getSize().y};
-            if(prop->getSize().y > maxX) maxX = prop->getSize().y;
+            nextPos = {{}, nextPos.x, nextPos.y + prop->getSize().y};
+            if(prop->getSize().x > maxX) maxX = prop->getSize().x;
         }
     }
-    size = {{}, maxX, nextPos.y};
+
+    auto group = appendChildren<NativeGroupbox>("groupbox");
+    group->setText(name + " [" + in_def->name+"]");
+    group->setScreenRect({{},pos.x,pos.y,maxX+10,nextPos.y-pos.y+10});
+
+    size = {{}, maxX+15, nextPos.y-pos.y+10};
 }
 
 Vec2 QStructPropertyView::getSize()

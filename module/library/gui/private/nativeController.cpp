@@ -34,9 +34,9 @@ void NativeController::loop(HINSTANCE in_hInstance, int nCmdShow)
             }
         }
         else {
-            for( auto& winIt : getChildsOfClass_singleDeep<Tickable>())
+            for( auto& winIt : getChildsWithNativeInterface_singleDeep<Tickable>())
             {
-                winIt.dynamic_getPtr()->handleTick(1 / 60.f); // TODO change to real delta
+                winIt.second->handleTick(1 / 60.f); // TODO change to real delta
             }
         }
     }

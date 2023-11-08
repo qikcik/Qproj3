@@ -13,6 +13,7 @@
 #include "gui/NativeEditbox.hpp"
 #include "propertyViewer/stringPropertyView.hpp"
 #include "propertyViewer/qstructPropertyView.hpp"
+#include "gui/nativeGroupbox.hpp"
 
 
 GEN_QSTRUCT(App)
@@ -43,6 +44,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     rti.registerQObjDef(OpenGlWindow::staticDef.getWeak()); OpenGlWindow::staticDef->initializeQObjDef();
     rti.registerQObjDef(NativeController::staticDef.getWeak()); NativeController::staticDef->initializeQObjDef();
     rti.registerQObjDef(NativeEditbox::staticDef.getWeak()); NativeEditbox::staticDef->initializeQObjDef();
+    rti.registerQObjDef(NativeGroupbox::staticDef.getWeak()); NativeGroupbox::staticDef->initializeQObjDef();
     rti.registerQObjDef(StringPropertyView::staticDef.getWeak()); StringPropertyView::staticDef->initializeQObjDef();
     rti.registerQObjDef(QStructPropertyView::staticDef.getWeak()); QStructPropertyView::staticDef->initializeQObjDef();
     Converter conv(rti);
