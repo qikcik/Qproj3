@@ -43,11 +43,13 @@ WeakPtr<Shred> Shred::appendChildren(WeakPtr<QObjDef> in_class, std::string in_n
                 index = std::max(index, childIt->id.duplicationIndex + 1);
     }
     shred->id = {{},std::move(in_name),index};
-
     auto shredWeak = shred.getWeak();
-    children.push_back(std::move(shred));
-    in_beforePropagateRegistration(shredWeak);
 
+    shred->directParent = selfPtr.unsafe_cast<Shred>();
+    children.push_back(std::move(shred));
+
+    in_beforePropagateRegistration(shredWeak);
+    shredWeak->postAppended();
     return shredWeak;
 }
 

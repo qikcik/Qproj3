@@ -31,10 +31,12 @@ GEN_QOBJ_BODY(NativeWidget,Shred);
 GEN_QOBJ_DEF_CONSTRUCTOR_AND_DESTRUCTOR(NativeWidget,Shred);
 public:
     virtual bool registerInWindow(WeakPtr<NativeWindow> in_window) { return false; };
-    virtual void setScreenRect(ScreenRect in_rect) { screenRect = in_rect; };
+    virtual void setScreenRect(ScreenRect in_rect);
 
     virtual void handleCommand() {};
     HWND getHwnd()  {return hwnd;};
+
+    void postAppended() override;
 
 protected:
 

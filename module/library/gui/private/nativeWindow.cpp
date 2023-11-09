@@ -108,7 +108,7 @@ LRESULT CALLBACK NativeWindow::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
         case WM_COMMAND:
             for (auto& widgetIt: selfPtr->getChildsOfClass_singleDeep<NativeWidget>()) {
-                if (widgetIt.getPtr()->getHwnd() == (HWND) lParam)
+                if (widgetIt && widgetIt.getPtr()->getHwnd() == (HWND) lParam)
                     widgetIt.getPtr()->handleCommand();
             }
             break;
@@ -124,4 +124,11 @@ int NativeWindow::getNewHmenuIdx()
 {
     lastHMenuIdx++;
     return lastHMenuIdx;
+}
+
+void NativeWindow::handleAppendWidget(WeakPtr<NativeWidget> in_widget)
+{
+    if(!hwnd) return;
+    in_widget.getPtr()->registerInWindow(selfPtr.unsafe_cast<NativeWindow>());
+
 }

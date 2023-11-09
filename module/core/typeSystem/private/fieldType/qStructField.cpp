@@ -38,5 +38,5 @@ void QStructField::fromJson(void* in_addr, const json::innerType& in_json,Loadin
 
 std::string QStructField::getTypeDesc() const
 {
-    return "QStruct:"+type->name;
+    return type->name;
 };

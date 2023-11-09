@@ -3,7 +3,7 @@
 #include <windows.h>
 
 
-
+class NativeWidget;
 GEN_QOBJ(NativeWindow,Shred)
 {
 GEN_QOBJ_BODY(NativeWindow,Shred);
@@ -18,6 +18,8 @@ public:
     int getNewHmenuIdx();
 
     bool isKeyPressed(uint8_t in_id) {return keys[in_id];};
+
+    void handleAppendWidget(WeakPtr<NativeWidget> in_widget);
 
 protected:
     FIELDS_BEGIN(description{"win32 api internal"})

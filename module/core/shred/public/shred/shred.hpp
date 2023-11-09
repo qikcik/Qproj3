@@ -90,7 +90,20 @@ public:
         return {};
     }
 
+    template<class T>
+    WeakPtr<T> getNearestParentOfClass()
+    {
+        for( auto it = directParent; it; it = it->directParent)
+        {
+            auto test = it->directParent.getPtr();
+            if( it->getObjDef()->isBaseOrSame( T::staticDef.getWeak() ))
+                return it.unsafe_cast<T>();
+        }
+        return {};
+    }
+
 public:
+    virtual void postAppended() {};
     void postLoad() override;
 
 

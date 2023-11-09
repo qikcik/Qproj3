@@ -31,3 +31,9 @@ void DynamicArrayUnsafeHelper::set_length(size_t in_length)
     auto ptr = reinterpret_cast<DynamicArray<uint8_t>*>(fixedArrayPtr);
     ptr->length = in_length;
 }
+
+size_t DynamicArrayUnsafeHelper::get_capacity()
+{
+    auto ptr = reinterpret_cast<DynamicArray<uint8_t>*>(fixedArrayPtr);
+    return ptr->get_capacity();
+}

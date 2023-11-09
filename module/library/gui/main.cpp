@@ -12,6 +12,7 @@
 #include <GL/glu.h>
 #include "stb_image/stb_image.h"
 #include "gui/NativeEditbox.hpp"
+#include "gui/nativeButton.hpp"
 
 
 GEN_QSTRUCT(App)
@@ -65,6 +66,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     rti.registerQObjDef(NativeController::staticDef.getWeak()); NativeController::staticDef->initializeQObjDef();
     rti.registerQObjDef(NativeEditbox::staticDef.getWeak()); NativeEditbox::staticDef->initializeQObjDef();
     rti.registerQObjDef(NativeGroupbox::staticDef.getWeak()); NativeGroupbox::staticDef->initializeQObjDef();
+    rti.registerQObjDef(NativeButton::staticDef.getWeak()); NativeButton::staticDef->initializeQObjDef();
     Converter conv(rti);
 
     App app {};
@@ -225,7 +227,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     edit->setText("test");
     edit->setScreenRect({{},200,200,100,20});
 
-    auto gr = win2->appendChildren<NativeGroupbox>("edit");
+    auto gr = win2->appendChildren<NativeButton>("edit");
     gr->setText("grrrrr");
     gr->setScreenRect({{},300,300,100,20});
 
