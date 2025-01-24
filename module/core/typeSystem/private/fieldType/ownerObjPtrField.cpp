@@ -51,6 +51,8 @@ void OwnerObjPtrField::fromJson(void* in_addr, const json::innerType& in_json,Lo
 
     for( auto& entryIt : json.entries)
     {
+        if(entryIt.first == "objDef") continue;
+
         auto field = objDef->getField(entryIt.first);
         if(!field) {
             LOG_WRN("tried to set not existed property:({})",entryIt.first)

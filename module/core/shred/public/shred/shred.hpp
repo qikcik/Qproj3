@@ -59,6 +59,7 @@ public:
         return result;
     }
 
+
     template<class T>
     DynamicArray<std::pair<WeakPtr<Shred>,T*>> getChildsWithNativeInterface_singleDeep()
     {
@@ -104,6 +105,7 @@ public:
 
 public:
     virtual void postAppended() {};
+    virtual void preRemove() {};
     void postLoad() override;
 
 

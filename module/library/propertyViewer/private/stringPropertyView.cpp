@@ -15,12 +15,12 @@ void StringPropertyView::set(void* in_ptr, std::string name, WeakPtr<StdStringFi
 
     label = appendChildren<NativeLabel>("label");
     label->setText(name);
-    label->setScreenRect({{},0,0,100,20});
+    label->setScreenRect({0,0,100,20});
 
 
     edit = appendChildren<NativeEditbox>("edit");
     edit->setText(*ptr);
-    edit->setScreenRect({{},100,0,100,20});
+    edit->setScreenRect({100,0,100,20});
 
     edit->onChange = [ptr](auto in_edit){
         *ptr = in_edit->getText();
@@ -34,6 +34,6 @@ Vec2 StringPropertyView::getSize()
 
 void StringPropertyView::setPosition(Vec2 in_pos)
 {
-    label->setScreenRect({{},in_pos.x,in_pos.y,100,20});
-    edit->setScreenRect({{},in_pos.x+100,in_pos.y,100,20});
+    label->setScreenRect({in_pos.x,in_pos.y,100,20});
+    edit->setScreenRect({in_pos.x+100,in_pos.y,100,20});
 }

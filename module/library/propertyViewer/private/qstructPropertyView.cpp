@@ -40,8 +40,8 @@ void QStructPropertyView::set(const std::string& in_name, QStruct* in_ptr, WeakP
             auto asString = fieldIt->type.getWeak().unsafe_cast<StdStringField>();
 
             auto prop = appendChildren<StringPropertyView>(fieldIt->name);
-            prop->setPosition(nextPos);
             prop->set( fieldIt->getValuePtr<void>(in_ptr), fieldIt->name, asString );
+            prop->setPosition(nextPos);
             nextPos = {{}, nextPos.x, nextPos.y + prop->getSize().y};
             if(prop->getSize().x > maxX) maxX = prop->getSize().x;
         }
@@ -73,7 +73,7 @@ void QStructPropertyView::set(const std::string& in_name, QStruct* in_ptr, WeakP
 
     auto group = appendChildren<NativeGroupbox>("groupbox");
     group->setText(name + " [" + in_def->name+"]");
-    group->setScreenRect({{},pos.x,pos.y,maxX+10,nextPos.y-pos.y+10});
+    group->setScreenRect({pos.x,pos.y,maxX+10,nextPos.y-pos.y+10});
 
     size = {{}, maxX+15, nextPos.y-pos.y+10};
 }
@@ -90,6 +90,10 @@ void QStructPropertyView::setPosition(Vec2 in_pos)
 
 void QStructPropertyView::recreate()
 {
+    for(auto& it : children)
+    {
+        it->preRemove();
+    }
     children.clear();
     set(name, ptr, def);
 }

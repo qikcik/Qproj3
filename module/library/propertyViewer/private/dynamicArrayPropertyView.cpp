@@ -87,7 +87,7 @@ void DynamicArrayPropertyView::set(void* in_ptr, std::string name, WeakPtr<Dynam
     nextPos = {{}, nextPos.x, nextPos.y + 5};
     auto addBtn = appendChildren<NativeButton>("add_btn");
     addBtn->setText("add new");
-    addBtn->setScreenRect({{},nextPos.x,nextPos.y,maxX,20});
+    addBtn->setScreenRect({nextPos.x,nextPos.y,maxX,20});
     nextPos = {{}, nextPos.x, nextPos.y + 20};
 
     auto selfWeak = selfPtr.unsafe_cast<DynamicArrayPropertyView>();
@@ -97,6 +97,19 @@ void DynamicArrayPropertyView::set(void* in_ptr, std::string name, WeakPtr<Dynam
 
         helper.get_length();
         LOG_INF("{}/{}",helper.get_length(),helper.get_capacity());
+        if(helper.get_capacity() <= helper.get_length()+1)
+        {
+            helper.reserve(helper.get_capacity()+1,[&valueTypePtr,&in_type](void* in_fromAddr, void* in_toAddr)
+            {
+                if(dynamic_cast<QStructField*>(valueTypePtr)) {
+                    auto asQStruct = in_type->valueType.getWeak().unsafe_cast<QStructField>();
+
+                    asQStruct->type->moveInstanceToUninitialized(static_cast<QStruct*>(in_fromAddr),static_cast<QStruct*>(in_toAddr));
+                    asQStruct->type->destructInstance(static_cast<QStruct*>(in_fromAddr));
+                }
+            });
+        }
+
         if(helper.get_capacity() > helper.get_length()+1)
         {
             auto idx = helper.get_length();
@@ -108,14 +121,14 @@ void DynamicArrayPropertyView::set(void* in_ptr, std::string name, WeakPtr<Dynam
                 auto asQStruct = in_type->valueType.getWeak().unsafe_cast<QStructField>();
                 asQStruct->type->constructInstance((QStruct*)ptr);
             }
-
-            if(selfWeak->onNeedRecreation) selfWeak->onNeedRecreation();
         }
+
+        if(selfWeak->onNeedRecreation) selfWeak->onNeedRecreation();
     };
 
     auto group = appendChildren<NativeGroupbox>("groupbox");
     group->setText(name + " [" + in_type->getTypeDesc() +"]");
-    group->setScreenRect({{},pos.x,pos.y,maxX+10,nextPos.y-pos.y+10});
+    group->setScreenRect({pos.x,pos.y,maxX+10,nextPos.y-pos.y+10});
 
     size = {{}, maxX+15, nextPos.y-pos.y+10};
 

@@ -114,7 +114,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     Converter conv(rti);
 
     App app {};
-    app.arr.reserve(20);
+    app.arr.reserve(2);
     app.root = Shred::ConstructRoot(Shred::staticDef.getWeak());
     auto controller = app.root->appendChildren<NativeController>("window!");
     auto win = controller->appendChildren<NativeWindow>("winApi");

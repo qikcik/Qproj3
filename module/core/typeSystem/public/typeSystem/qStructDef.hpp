@@ -15,12 +15,14 @@ public:
             size_t in_size,
             const std::function<void(QStruct* in_addr)>& in_constructInstance,
             const std::function<void(QStruct* in_addr)>& in_destructInstance,
+            const std::function<void(QStruct* in_fromAddr,QStruct* in_toAddr)> in_moveInstanceToUninitialized,
             DynamicArray<OwnerPtr<Field>>&& in_fields
         ):
             name(std::move(in_name)),
             memorySize(in_size),
             constructInstance(in_constructInstance),
             destructInstance(in_destructInstance),
+            moveInstanceToUninitialized(in_moveInstanceToUninitialized),
             fields(std::move(in_fields))
         {}
 
@@ -34,6 +36,7 @@ public:
 
     const std::function<void(QStruct* in_addr)> constructInstance;
     const std::function<void(QStruct* in_addr)> destructInstance;
+    const std::function<void(QStruct* in_fromAddr,QStruct* in_toAddr)> moveInstanceToUninitialized;
 
 protected:
     DynamicArray<OwnerPtr<Field>> fields;

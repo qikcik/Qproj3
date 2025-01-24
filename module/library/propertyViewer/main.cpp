@@ -27,7 +27,7 @@ public:
         std::string test {"value"};
         float foo {23.2};
         DynamicArray<float> Arr {2,3,4};
-        std::string Arr2 {};
+        //std::string str {};
     FIELDS_END()
 };
 
@@ -36,7 +36,7 @@ GEN_QSTRUCT_STATIC_DEF(App,{
     GEN_QSTRUCT_FIELD_ENTRY(App,test),
     GEN_QSTRUCT_FIELD_ENTRY(App,foo),
     GEN_QSTRUCT_FIELD_ENTRY(App,Arr),
-    GEN_QSTRUCT_FIELD_ENTRY(App,Arr2),
+    //GEN_QSTRUCT_FIELD_ENTRY(App,str),
 });
 
 
@@ -63,7 +63,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     auto controller = app.root->appendChildren<NativeController>("window!");
     auto win = controller->appendChildren<NativeWindow>("winApi");
     auto strct = win->appendChildren<QStructPropertyView>("struct");
-    strct->set(&app,App::staticDef.getWeak());
+    strct->set("App",&app,App::staticDef.getWeak());
 
 
     controller->loop(hInstance,nCmdShow);

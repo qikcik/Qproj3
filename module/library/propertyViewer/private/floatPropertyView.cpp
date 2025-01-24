@@ -47,8 +47,8 @@ Vec2 FloatPropertyView::getSize()
 void FloatPropertyView::setPosition(Vec2 in_pos)
 {
     pos = in_pos;
-    if(label) label->setScreenRect({{},in_pos.x,in_pos.y,100,20});
-    if(edit) edit->setScreenRect({{},in_pos.x+100,in_pos.y,100,20});
+    if(label) label->setScreenRect({in_pos.x,in_pos.y,100,20});
+    if(edit) edit->setScreenRect({in_pos.x+100,in_pos.y,100,20});
 }
 
 void FloatPropertyView::handleTick(float delta)
